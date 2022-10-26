@@ -18,6 +18,5 @@ public class ZenPackDto {
     private String updatedBy;
     private Date updatedTime;
     private List<MenuDto> menus;
-    private String featureId;
     private List<FeaturedList> features;
 }

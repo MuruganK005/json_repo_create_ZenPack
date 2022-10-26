@@ -3,6 +3,7 @@ package com.ZenPack.repository;
 import com.ZenPack.model.FeaturedList;
 import com.ZenPack.model.ZenPack;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface FeaturedListRepository extends JpaRepository<FeaturedList, Integer> {
+public interface FeaturedListRepository extends JpaRepository<FeaturedList, Integer>, JpaSpecificationExecutor {
 
     //Custom Query
     @Query("SELECT p FROM FeaturedList p WHERE p.text LIKE %:keyword%" )
     List<FeaturedList> findByKeyword(String keyword);
 
-    Optional<FeaturedList> findByFeatureId(String featureid);
 }

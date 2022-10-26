@@ -9,16 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.ZenPack.Dto.FeatureDto;
-import com.ZenPack.Dto.ZenPackDto;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
 import com.ZenPack.Dto.MenuDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,9 +41,6 @@ public class ZenPack {
     @Column(name = "json_data", columnDefinition = "jsonb")
     private List<MenuDto> menus;
 
-    @Column(name = "feature_ids")
-    private String featureIds;
-
     @Column(name = "created_date")
     private Date updatedTime= new Date();
 
@@ -60,6 +52,5 @@ public class ZenPack {
 
     @Column(name = "updated_by")
     private String updatedBy;
-
 
 }

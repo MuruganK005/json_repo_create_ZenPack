@@ -49,8 +49,8 @@ public class ZenPackReportController {
 		return service.getReportHeaderById(reportId);
 	}
 	
-	@GetMapping("/getReportHeaderByName/{name}")
-	public ReportHeader getReportHeaderByName(@PathVariable String name) {
-		return service.getReportHeaderByName(name);
+	@GetMapping("/getReportHeaderByName/{reportName}")
+	public ReportHeader getReportHeaderByName(@PathVariable String reportName) {
+		return service.getReportHeaderByName(reportName);
 	}
 }

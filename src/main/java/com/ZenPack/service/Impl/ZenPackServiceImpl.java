@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+
 public class ZenPackServiceImpl implements ZenPackService {
 
 	@Autowired
@@ -59,7 +60,7 @@ public class ZenPackServiceImpl implements ZenPackService {
 
 	@Override
 	public ResponseEntity<ZenPackDto> createZenPack(ZenPackDto zenPackDto) {
-		ModelMapper mapper = new ModelMapper();
+		/*ModelMapper mapper = new ModelMapper();
 		mapper.getConfiguration().setAmbiguityIgnored(true);
 		ZenPack zenPack = mapper.map(zenPackDto, ZenPack.class);
 		zenPack.setCreatedDate(new Date());
@@ -95,6 +96,16 @@ public class ZenPackServiceImpl implements ZenPackService {
 		zenPackDto.setUpdatedTime(zenPack.getUpdatedTime());
 		zenPackDto.setMenus(zenPack.getMenus());
 		repository.save(zenPack);
+		return new ResponseEntity<>(zenPackDto, HttpStatus.OK);*/
+		ModelMapper mapper = new ModelMapper();
+		mapper.getConfiguration().setAmbiguityIgnored(true);
+		ZenPack zenPack = mapper.map(zenPackDto, ZenPack.class);
+		zenPack.setCreatedDate(new Date());
+		zenPack.setUpdatedTime(new Date());
+		repository.save(zenPack);
+		zenPackDto.setZenPackId(zenPack.getZenPackId());
+		zenPackDto.setCreatedDate(zenPack.getCreatedDate());
+		zenPackDto.setUpdatedTime(zenPack.getUpdatedTime());
 		return new ResponseEntity<>(zenPackDto, HttpStatus.OK);
 	}
 	@Override
