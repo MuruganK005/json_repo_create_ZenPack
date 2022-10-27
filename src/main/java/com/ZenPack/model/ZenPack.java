@@ -9,15 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import com.ZenPack.Dto.MenuDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -26,7 +24,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "zen_pack")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class) 
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@Builder
 public class ZenPack {
 
     @Id

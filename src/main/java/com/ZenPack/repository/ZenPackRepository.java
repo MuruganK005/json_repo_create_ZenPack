@@ -1,6 +1,5 @@
 package com.ZenPack.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +15,7 @@ public interface ZenPackRepository extends JpaRepository<ZenPack,Integer>, JpaSp
 
     Optional<ZenPack> findByZenPackId(Long zenPackId);
     
-    List<ZenPack> findByName(String name);
+    Optional<ZenPack> findByName(String name);  //new one
+
+
 }

@@ -2,6 +2,7 @@ package com.ZenPack.service.Services;
 
 import java.util.List;
 
+import com.ZenPack.exception.ZenPackException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -13,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public interface  ZenPackService {
     ResponseEntity<ZenPack> saveZenPack(ZenPack zenPack);
 
-    ResponseEntity<ZenPackDto> createZenPack(ZenPackDto createDto) throws JsonProcessingException;
+    ResponseEntity<ZenPackDto> createZenPack(ZenPackDto createDto) throws JsonProcessingException, ZenPackException;
 
     List<ZenPackDto> getAllZenPack() throws JsonProcessingException;
 
@@ -21,7 +22,9 @@ public interface  ZenPackService {
 
     ZenPackDto getByZenPackId(Long zenPackId);
     
+/*    boolean checkZenPackName(String name);*/
+
     boolean checkZenPackName(String name);
-    
+
     Page<ZenPack> searchZenPack(SearchRequest request);
 }

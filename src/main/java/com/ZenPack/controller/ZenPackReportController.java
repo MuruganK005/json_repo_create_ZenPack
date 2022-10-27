@@ -27,9 +27,9 @@ public class ZenPackReportController {
 
 	@PostMapping("/create")
 	public ResponseEntity<ReportHeader> createReportHeader(@RequestBody ReportHeader reportHeader) {
-		if (reportHeader == null || service.checkZenPackName(reportHeader.getReportName())) {
+		/*if (reportHeader == null || service.checkZenPackName(reportHeader.getReportName())) {
 			return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-		}
+		}*/
 		ReportHeader reportHeaderResponse = service.createReportHeader(reportHeader);
 		return ResponseEntity.status(HttpStatus.CREATED).body(reportHeaderResponse);
 	}
@@ -38,7 +38,6 @@ public class ZenPackReportController {
 	public List<ReportHeader> getAllReportHeader() throws JsonProcessingException {
 		return service.getAllReportHeader();
 	}
-
 	@DeleteMapping("/delete/{reportId}")
 	public String deleteByReportHeaderId(@PathVariable Long reportId) {
 		return service.deleteReportHeaderById(reportId);
@@ -48,7 +47,6 @@ public class ZenPackReportController {
 	public ReportHeader getReportHeaderById(@PathVariable Long reportId) {
 		return service.getReportHeaderById(reportId);
 	}
-	
 	@GetMapping("/getReportHeaderByName/{reportName}")
 	public ReportHeader getReportHeaderByName(@PathVariable String reportName) {
 		return service.getReportHeaderByName(reportName);

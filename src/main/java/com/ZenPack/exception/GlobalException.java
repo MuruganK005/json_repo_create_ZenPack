@@ -12,6 +12,9 @@ public class GlobalException{
     @ExceptionHandler(value = ZenPackException.class)
     public ResponseEntity<?> handleTeamException(ZenPackException exception) {
         logger.error("ZenPack Exception: {}", exception.getErrorMessage());
-        return new ResponseEntity<>(ErrorResponse.builder().message(exception.getErrorMessage()).build(), exception.getStatus());
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .message(exception.getErrorMessage())
+                .status(exception.getStatus())
+                .build(), exception.getStatus());
     }
 }

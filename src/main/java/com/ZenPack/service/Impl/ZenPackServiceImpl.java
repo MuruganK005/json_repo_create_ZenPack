@@ -7,8 +7,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-import com.ZenPack.Dto.MenuDto;
-import com.ZenPack.model.FeaturedList;
+import com.ZenPack.exception.ZenPackException;
 import com.ZenPack.repository.FeaturedListRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -59,55 +58,24 @@ public class ZenPackServiceImpl implements ZenPackService {
 	}
 
 	@Override
-	public ResponseEntity<ZenPackDto> createZenPack(ZenPackDto zenPackDto) {
-		/*ModelMapper mapper = new ModelMapper();
-		mapper.getConfiguration().setAmbiguityIgnored(true);
-		ZenPack zenPack = mapper.map(zenPackDto, ZenPack.class);
-		zenPack.setCreatedDate(new Date());
-		zenPack.setUpdatedTime(new Date());
-		if (zenPackDto.getFeatureId()!=null){
-			List<String> featureIds= List.of(zenPackDto.getFeatureId().split(","));
-			ArrayList<FeaturedList> featuredLists=new ArrayList<>();
-			for (String featureid: featureIds) {
-			Optional<FeaturedList> featureDetails=listRepository.findByFeatureId(featureid);
-			if (featureDetails.isPresent()){
-				featuredLists.add(featureDetails.get());
-			}
-			}
-			zenPackDto.setFeatures(featuredLists);
-			}
-		if (!zenPackDto.getMenus().isEmpty()){
-			for (MenuDto menuDto: zenPack.getMenus()) {
-				if (menuDto.getFeatureIds()!=null){
-					List<String> featureIds= List.of(menuDto.getFeatureIds().split(","));
-					ArrayList<FeaturedList> featuredLists=new ArrayList<>();
-					for (String featureid: featureIds) {
-						Optional<FeaturedList> featureDetails=listRepository.findByFeatureId(featureid);
-						if (featureDetails.isPresent()){
-							featuredLists.add(featureDetails.get());
-						}
-					}
-					menuDto.setFeatures(featuredLists);
-				}
-			}
+	public ResponseEntity<ZenPackDto> createZenPack(ZenPackDto zenPackDto) throws ZenPackException {
+		//new one-------
+		Optional<ZenPack> zenPack1=repository.findByName(zenPackDto.getName());
+		if (zenPack1.isPresent()&& zenPack1.get().getZenPackId() != zenPackDto.getZenPackId()) {
+			throw new ZenPackException(HttpStatus.FOUND,"ZenPackName Already Exist");
 		}
-		zenPackDto.setZenPackId(zenPack.getZenPackId());
-		zenPackDto.setCreatedDate(zenPack.getCreatedDate());
-		zenPackDto.setUpdatedTime(zenPack.getUpdatedTime());
-		zenPackDto.setMenus(zenPack.getMenus());
-		repository.save(zenPack);
-		return new ResponseEntity<>(zenPackDto, HttpStatus.OK);*/
-		ModelMapper mapper = new ModelMapper();
-		mapper.getConfiguration().setAmbiguityIgnored(true);
-		ZenPack zenPack = mapper.map(zenPackDto, ZenPack.class);
-		zenPack.setCreatedDate(new Date());
-		zenPack.setUpdatedTime(new Date());
-		repository.save(zenPack);
-		zenPackDto.setZenPackId(zenPack.getZenPackId());
-		zenPackDto.setCreatedDate(zenPack.getCreatedDate());
-		zenPackDto.setUpdatedTime(zenPack.getUpdatedTime());
-		return new ResponseEntity<>(zenPackDto, HttpStatus.OK);
-	}
+		//------------
+			ModelMapper mapper = new ModelMapper();
+			mapper.getConfiguration().setAmbiguityIgnored(true);
+			ZenPack zenPack = mapper.map(zenPackDto, ZenPack.class);
+			zenPack.setCreatedDate(new Date());
+			zenPack.setUpdatedTime(new Date());
+			repository.save(zenPack);
+			zenPackDto.setZenPackId(zenPack.getZenPackId());
+			zenPackDto.setCreatedDate(zenPack.getCreatedDate());
+			zenPackDto.setUpdatedTime(zenPack.getUpdatedTime());
+			return new ResponseEntity<>(zenPackDto, HttpStatus.OK);
+		}
 	@Override
 	public List<ZenPackDto> getAllZenPack() throws JsonProcessingException {
 		List<ZenPack> zenPacks = repository.findAll();
@@ -148,8 +116,14 @@ public class ZenPackServiceImpl implements ZenPackService {
 
 	@Override
 	public boolean checkZenPackName(String name) {
-		boolean exists = repository.findByName(name).size() == 0 ? false : true;
-		return exists;
+		//--------
+		Optional<ZenPack> zenPack = repository.findByName(name);
+		if(zenPack.isPresent()){
+			return true;
+		} else {
+			return false;
+		}
+		//-----------
 	}
 	@Override
 	public Page<ZenPack> searchZenPack(SearchRequest request) {
