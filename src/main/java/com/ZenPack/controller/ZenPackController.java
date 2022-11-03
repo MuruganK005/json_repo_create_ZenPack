@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.ZenPack.Dto.SearchFilterDto;
 import com.ZenPack.excel.ZenPackExcelExporter;
 import com.ZenPack.exception.ZenPackException;
 import com.ZenPack.repository.ZenPackExcelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,9 +60,6 @@ public class ZenPackController {
 
     @PostMapping("/create")//new One
     public ResponseEntity<ZenPackDto> createZenPack(@RequestBody ZenPackDto zenPackDto) throws ZenPackException {
-        /*if(zenPackDto == null || service.checkZenPackName(zenPackDto.getName())){
-    		return new ResponseEntity<>(null,HttpStatus.EXPECTATION_FAILED);
-    	}*/
         return service.createZenPack(zenPackDto);
     }
     @PostMapping("/check_zen_pack_name")//new one
@@ -92,18 +91,24 @@ public class ZenPackController {
     }
 
     @GetMapping("/export/excel")//new one
-    public void exportToExcel(HttpServletResponse response) throws IOException {
-
+    public void exportToExcel(@RequestBody SearchFilterDto filterDto, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
         String headerKey = "Content-Disposition";
         String headervalue = "attachment; filename=ZenPack_info"+currentDateTime+".xlsx";
-
+        response.setContentType(filterDto.toString());
         response.setHeader(headerKey, headervalue);
-        List<ZenPack> listStudent = excelRepository.findAll();
-        ZenPackExcelExporter exp = new ZenPackExcelExporter(listStudent);
-        exp.export(response);
+
+        PageRequest pageRequest=PageRequest.of(filterDto.getStartRow(), filterDto.getEndRow());
+        Page<ZenPack> listStudent = excelRepository.findAll(pageRequest);
+        ZenPackExcelExporter exp = new ZenPackExcelExporter(listStudent.getContent());
+        exp.export(filterDto,response);
+    }
+
+    @DeleteMapping("/set_in_active/{zenPackId}")
+    public String setZenPackActiveOrInActive(@PathVariable Long zenPackId){
+        return  service.setActiveOrInActive(zenPackId);
     }
 
 }

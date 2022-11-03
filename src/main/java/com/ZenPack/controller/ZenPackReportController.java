@@ -27,9 +27,6 @@ public class ZenPackReportController {
 
 	@PostMapping("/create")
 	public ResponseEntity<ReportHeader> createReportHeader(@RequestBody ReportHeader reportHeader) {
-		/*if (reportHeader == null || service.checkZenPackName(reportHeader.getReportName())) {
-			return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-		}*/
 		ReportHeader reportHeaderResponse = service.createReportHeader(reportHeader);
 		return ResponseEntity.status(HttpStatus.CREATED).body(reportHeaderResponse);
 	}

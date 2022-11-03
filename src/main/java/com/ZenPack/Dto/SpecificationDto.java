@@ -1,6 +1,9 @@
 package com.ZenPack.Dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 @Getter
@@ -12,7 +15,4 @@ public class SpecificationDto {
     private String operation;
     private String value;
     private List<?> vaLues;
-
-
-
 }

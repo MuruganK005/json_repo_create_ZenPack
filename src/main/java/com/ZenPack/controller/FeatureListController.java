@@ -30,25 +30,22 @@ public class FeatureListController {
         return service.save(featuredList);
     }
 
-
     @GetMapping("/get_features")
     @ResponseStatus(HttpStatus.OK)
     public List<FeaturedList> findAllFeatureList(){
         return service.findAllList();
     }
-//
+
     @GetMapping("/search_by_name")
     @ResponseStatus(HttpStatus.OK)
     public List<FeaturedList> findByName(@RequestParam String keyword){
         return service.findByKeyword(keyword);
     }
-//
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<FeaturedList> getList(@PathVariable int id){
         return service.getListById(id);
     }
-
 
     @DeleteMapping("/deleteList/{id}")
     public String delete(@PathVariable int id){

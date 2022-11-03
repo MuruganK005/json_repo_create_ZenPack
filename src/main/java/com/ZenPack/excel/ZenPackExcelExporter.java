@@ -1,5 +1,6 @@
 package com.ZenPack.excel;
 
+import com.ZenPack.Dto.SearchFilterDto;
 import com.ZenPack.model.ZenPack;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -17,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ZenPackExcelExporter {      //new one
+public class ZenPackExcelExporter {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
 
@@ -96,7 +97,8 @@ public class ZenPackExcelExporter {      //new one
         }
     }
 
-    public void export(HttpServletResponse response) throws IOException {
+    public void export(SearchFilterDto filterDto,HttpServletResponse response) throws IOException {
+
         writeHeaderLine();
         writeDataLines();
 

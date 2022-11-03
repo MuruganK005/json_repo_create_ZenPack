@@ -10,12 +10,8 @@ import com.ZenPack.model.ZenPack;
 
 @Repository
 public interface ZenPackRepository extends JpaRepository<ZenPack,Integer>, JpaSpecificationExecutor<ZenPack> {
-
     void deleteByZenPackId(Long zenPackId);
-
     Optional<ZenPack> findByZenPackId(Long zenPackId);
-    
     Optional<ZenPack> findByName(String name);  //new one
-
 
 }

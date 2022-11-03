@@ -1,7 +1,6 @@
 package com.ZenPack.Enums;
 
 public enum EnumsSorting {
-
     CONTAINS,
     NOT_CONTAINS,
     EQUALS,
@@ -10,5 +9,4 @@ public enum EnumsSorting {
     ENDS_WITH,
     BLANKS,
     NOT_BLANKS
-
 }

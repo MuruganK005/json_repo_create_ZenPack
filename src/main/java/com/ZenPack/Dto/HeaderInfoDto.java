@@ -1,8 +1,8 @@
 package com.ZenPack.Dto;
 
-import java.io.Serializable;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 @Data
 public class HeaderInfoDto implements Serializable {

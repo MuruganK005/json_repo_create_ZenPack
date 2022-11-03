@@ -1,5 +1,8 @@
 package com.ZenPack.model;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -10,12 +13,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import com.ZenPack.Dto.MenuDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -41,15 +48,18 @@ public class ZenPack {
     private List<MenuDto> menus;
 
     @Column(name = "created_date")
-    private Date updatedTime= new Date();
+    private String createdDate;
 
     @Column(name = "updated_time")
-    private Date createdDate =new Date();
+    private String updatedTime;
 
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "updated_by")
     private String updatedBy;
+
+    @Column(name = "in_active")
+    private Boolean inActive=false;
 
 }

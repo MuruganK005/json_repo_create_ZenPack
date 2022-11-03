@@ -1,12 +1,8 @@
 package com.ZenPack.Dto;
 
-
-import com.ZenPack.model.FeaturedList;
 import lombok.Getter;
 import lombok.Setter;
-
-
-import java.util.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,9 +10,10 @@ public class ZenPackDto {
     private Long zenPackId;
     private String name;
     private String createdBy;
-    private Date createdDate;
+    private String createdDate;
     private String updatedBy;
-    private Date updatedTime;
+    private String updatedTime;
     private List<MenuDto> menus;
-    private List<FeaturedList> features;
+    private List<FeatureDto> features;
+    private Boolean inActive=false;
 }

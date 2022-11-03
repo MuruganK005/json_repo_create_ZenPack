@@ -27,4 +27,6 @@ public interface  ZenPackService {
     boolean checkZenPackName(String name);
 
     Page<ZenPack> searchZenPack(SearchRequest request);
+
+    String setActiveOrInActive(Long zenPackId);
 }

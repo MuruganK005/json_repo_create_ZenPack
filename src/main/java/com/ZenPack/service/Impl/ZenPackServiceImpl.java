@@ -1,5 +1,10 @@
 package com.ZenPack.service.Impl;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +55,10 @@ public class ZenPackServiceImpl implements ZenPackService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ZenPackServiceImpl.class);
 
+	LocalDateTime myDateObj = LocalDateTime.now();
+	DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	String formattedDate = myDateObj.format(myFormatObj);
+
 	@Override
 	public ResponseEntity<ZenPack> saveZenPack(ZenPack zenPack) {
 		repository.save(zenPack);
@@ -59,17 +68,15 @@ public class ZenPackServiceImpl implements ZenPackService {
 
 	@Override
 	public ResponseEntity<ZenPackDto> createZenPack(ZenPackDto zenPackDto) throws ZenPackException {
-		//new one-------
 		Optional<ZenPack> zenPack1=repository.findByName(zenPackDto.getName());
 		if (zenPack1.isPresent()&& zenPack1.get().getZenPackId() != zenPackDto.getZenPackId()) {
 			throw new ZenPackException(HttpStatus.FOUND,"ZenPackName Already Exist");
 		}
-		//------------
 			ModelMapper mapper = new ModelMapper();
 			mapper.getConfiguration().setAmbiguityIgnored(true);
 			ZenPack zenPack = mapper.map(zenPackDto, ZenPack.class);
-			zenPack.setCreatedDate(new Date());
-			zenPack.setUpdatedTime(new Date());
+			zenPack.setCreatedDate(formattedDate);
+			zenPack.setUpdatedTime(formattedDate);
 			repository.save(zenPack);
 			zenPackDto.setZenPackId(zenPack.getZenPackId());
 			zenPackDto.setCreatedDate(zenPack.getCreatedDate());
@@ -116,20 +123,28 @@ public class ZenPackServiceImpl implements ZenPackService {
 
 	@Override
 	public boolean checkZenPackName(String name) {
-		//--------
 		Optional<ZenPack> zenPack = repository.findByName(name);
 		if(zenPack.isPresent()){
 			return true;
 		} else {
 			return false;
 		}
-		//-----------
 	}
 	@Override
 	public Page<ZenPack> searchZenPack(SearchRequest request) {
 		SearchSpecification<ZenPack> specification = new SearchSpecification<>(request);
 		Pageable pageable = SearchSpecification.getPageable(request.getPage(), request.getSize());
 		return repository.findAll(specification, pageable);
+	}
+
+	@Override
+	public String setActiveOrInActive(Long zenPackId) {
+		Optional<ZenPack> entity = repository.findByZenPackId(zenPackId);
+		if (entity.isPresent()) {
+			entity.get().setInActive(true);
+			repository.save(entity.get());
+		}
+		return "ZenPack "+zenPackId+" Set InActive Successful";
 	}
 
 	public ReportHeader createReportHeader(final ReportHeader reportHeader) {
