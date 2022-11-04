@@ -3,6 +3,7 @@ package com.ZenPack.service.Services;
 import com.ZenPack.Dto.SpecificationDto;
 import com.ZenPack.Dto.ZenPackDto;
 import com.ZenPack.Specification.ZenPackSpecification;
+import com.ZenPack.model.Report;
 import com.ZenPack.model.ZenPack;
 import com.ZenPack.repository.ZenPackRepository;
 import org.modelmapper.ModelMapper;
@@ -23,9 +24,10 @@ public class SpecificationService {
     public ResponseEntity<Page<ZenPack>> getBySpecification(SpecificationDto specificationDto) {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
-        Sort.Direction sort = Sort.Direction.DESC;
+        Sort.Direction sort = Sort.Direction.ASC;
         ZenPackSpecification spec = new ZenPackSpecification(specificationDto);
         Page<ZenPack> zenPacks=repository.findAll(spec, Pageable.unpaged());
         return new ResponseEntity<>(zenPacks,HttpStatus.OK);
     }
+
 }

@@ -21,7 +21,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @RestController
 @RequestMapping("/api/v1/reportHeader")
 public class ZenPackReportController {
-
 	@Autowired
 	private ZenPackServiceImpl service;
 

@@ -9,6 +9,7 @@ import java.util.List;
 import com.ZenPack.Dto.SearchFilterDto;
 import com.ZenPack.excel.ZenPackExcelExporter;
 import com.ZenPack.exception.ZenPackException;
+import com.ZenPack.model.Report;
 import com.ZenPack.repository.ZenPackExcelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -78,19 +79,16 @@ public class ZenPackController {
     public ZenPackDto getByZenPackId(@PathVariable Long zenPackId){
         return service.getByZenPackId(zenPackId);
     }
-
     @PostMapping("/search")
     public ResponseEntity<Page<ZenPack>> getBySpecification(@RequestBody SpecificationDto specificationDto){
         ResponseEntity<Page<ZenPack>> response = specificationService.getBySpecification(specificationDto);
         return new ResponseEntity<>(response.getBody(),response.getStatusCode());
     }
-    
     @PostMapping("/searchZenPack")
     public Page<ZenPack> searchZenPack(@RequestBody SearchRequest request) {
         return service.searchZenPack(request);
     }
-
-    @GetMapping("/export/excel")//new one
+    @PostMapping("/export/excel")//new one
     public void exportToExcel(@RequestBody SearchFilterDto filterDto, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -99,16 +97,13 @@ public class ZenPackController {
         String headervalue = "attachment; filename=ZenPack_info"+currentDateTime+".xlsx";
         response.setContentType(filterDto.toString());
         response.setHeader(headerKey, headervalue);
-
         PageRequest pageRequest=PageRequest.of(filterDto.getStartRow(), filterDto.getEndRow());
         Page<ZenPack> listStudent = excelRepository.findAll(pageRequest);
         ZenPackExcelExporter exp = new ZenPackExcelExporter(listStudent.getContent());
         exp.export(filterDto,response);
     }
-
     @DeleteMapping("/set_in_active/{zenPackId}")
     public String setZenPackActiveOrInActive(@PathVariable Long zenPackId){
         return  service.setActiveOrInActive(zenPackId);
     }
-
 }
